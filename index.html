@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deal Management</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; }
+
+  header { background: #fff; border-bottom: 1px solid #e0e0dc; padding: 16px 32px; display: flex; align-items: center; gap: 12px; }
+  header h1 { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+  header span { font-size: 12px; color: #888; }
+
+  .tabs { display: flex; gap: 0; background: #fff; border-bottom: 1px solid #e0e0dc; padding: 0 32px; }
+  .tab { padding: 12px 24px; font-size: 14px; cursor: pointer; border: none; background: none; color: #888; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: inherit; }
+  .tab.active { color: #1a1a1a; border-bottom-color: #1D9E75; font-weight: 500; }
+
+  .content { padding: 32px; max-width: 1400px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Form */
+  .form-card { background: #fff; border-radius: 12px; border: 1px solid #e0e0dc; padding: 28px; max-width: 720px; }
+  .form-card h2 { font-size: 15px; font-weight: 600; margin-bottom: 20px; color: #1a1a1a; }
+  .form-section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #1D9E75; margin: 24px 0 12px; padding-top: 20px; border-top: 1px solid #f0f0ec; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: 12px; font-weight: 500; color: #666; text-transform: uppercase; letter-spacing: 0.04em; }
+  input, select, textarea {
+    font-family: inherit; font-size: 14px; padding: 9px 12px;
+    border: 1px solid #ddd; border-radius: 8px;
+    background: #fff; color: #1a1a1a; width: 100%;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #1D9E75; }
+  textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+  .btn-submit {
+    margin-top: 24px; padding: 12px 20px;
+    background: #1D9E75; color: #fff; border: none;
+    border-radius: 8px; font-size: 14px; font-weight: 500;
+    cursor: pointer; width: 100%; font-family: inherit;
+    transition: background 0.15s;
+  }
+  .btn-submit:hover { background: #0F6E56; }
+
+  /* Dashboard */
+  .summary-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .metric { background: #fff; border: 1px solid #e0e0dc; border-radius: 10px; padding: 16px 20px; }
+  .metric-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .metric-value { font-size: 22px; font-weight: 600; color: #1a1a1a; }
+
+  .table-card { background: #fff; border: 1px solid #e0e0dc; border-radius: 12px; overflow: hidden; }
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1200px; }
+  th {
+    text-align: left; padding: 10px 14px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.04em; white-space: nowrap;
+    border-bottom: 1px solid #e0e0dc;
+  }
+  th.g-deal { background: #f0faf6; color: #0F6E56; }
+  th.g-task { background: #f3f1fe; color: #3C3489; }
+  td { padding: 10px 14px; border-bottom: 1px solid #f0f0ec; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafaf8; }
+
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 500; }
+  .p-active { background: #E6F1FB; color: #0C447C; }
+  .p-nurture { background: #FAEEDA; color: #633806; }
+  .p-won { background: #EAF3DE; color: #27500A; }
+  .p-lost { background: #FCEBEB; color: #791F1F; }
+  .p-disqualified { background: #f1f0ee; color: #555; }
+  .fc-commit { background: #EEEDFE; color: #3C3489; }
+  .fc-forecast { background: #E6F1FB; color: #0C447C; }
+  .fc-strong { background: #E1F5EE; color: #085041; }
+  .fc-upside { background: #FAEEDA; color: #633806; }
+
+  .phase-select {
+    font-size: 12px; padding: 4px 8px; border-radius: 6px;
+    border: 1px solid #ddd; background: #fff; color: #1a1a1a;
+    cursor: pointer; font-family: inherit;
+  }
+  .task-input {
+    font-size: 12px; padding: 5px 8px; border-radius: 6px;
+    border: 1px solid #e0e0dc; background: #fafaf8; color: #1a1a1a;
+    width: 100%; min-width: 140px; resize: none;
+    font-family: inherit; line-height: 1.4;
+  }
+  .task-input:focus { outline: none; border-color: #1D9E75; background: #fff; }
+  .del-btn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 16px; padding: 2px 4px; transition: color 0.15s; }
+  .del-btn:hover { color: #e24b4a; }
+
+  .empty-state { text-align: center; padding: 48px 20px; color: #aaa; font-size: 14px; }
+  .empty-state p { margin-bottom: 8px; }
+  .empty-link { color: #1D9E75; cursor: pointer; text-decoration: underline; font-size: 13px; }
+
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: #1D9E75; color: #fff; padding: 12px 20px;
+    border-radius: 8px; font-size: 13px; font-weight: 500;
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .toast.show { opacity: 1; }
+
+  @media (max-width: 640px) {
+    .content { padding: 16px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+    .summary-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Deal Management</h1>
+  <span>FY 2025</span>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('form')">Register Deal</button>
+  <button class="tab" onclick="switchTab('dashboard')">Dashboard</button>
+</div>
+
+<div class="content">
+
+  <!-- FORM -->
+  <div id="form" class="section active">
+    <div class="form-card">
+      <h2>Register a New Deal</h2>
+      <div class="form-grid">
+        <div class="form-section-title" style="grid-column:1/-1">Deal Info</div>
+        <div class="form-group">
+          <label>Sales Rep</label>
+          <input type="text" id="f-sales" placeholder="Name" />
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" id="f-company" placeholder="Company name" />
+        </div>
+        <div class="form-group">
+          <label>Deal Phase</label>
+          <select id="f-phase">
+            <option value="">Select phase</option>
+            <option>Active</option>
+            <option>Nurture</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Deal Value (PHP)</label>
+          <input type="number" id="f-value" placeholder="0" min="0" />
+        </div>
+        <div class="form-group">
+          <label>Forecast Category</label>
+          <select id="f-forecast">
+            <option value="">Select category</option>
+            <option>Commit</option>
+            <option>Forecast</option>
+            <option>Strong Upside</option>
+            <option>Upside</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>PCD (Projected Close Date)</label>
+          <input type="date" id="f-pcd" />
+        </div>
+
+        <div class="form-section-title" style="grid-column:1/-1">Tasks by Team</div>
+        <div class="form-group">
+          <label>Catalyst (Name)</label>
+          <input type="text" id="f-catalyst-name" placeholder="e.g. Patrick, Alex" />
+        </div>
+        <div class="form-group">
+          <label>Catalyst Task</label>
+          <textarea id="f-catalyst-task" placeholder="What does Catalyst need to do?"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Sales Task</label>
+          <textarea id="f-task-sales" placeholder="What does Sales need to do?"></textarea>
+        </div>
+        <div class="form-group">
+          <label>LDU Task</label>
+          <textarea id="f-task-ldu" placeholder="What does LDU need to do?"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Marketing Task</label>
+          <textarea id="f-task-marketing" placeholder="What does Marketing need to do?"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Product Marketing Task</label>
+          <textarea id="f-task-prodmkt" placeholder="What does Product Marketing need to do?"></textarea>
+        </div>
+        <div class="form-group full">
+          <label>Product Task</label>
+          <textarea id="f-task-product" placeholder="What does the Product team need to do?"></textarea>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="registerDeal()">Register Deal →</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="section">
+    <div class="summary-row">
+      <div class="metric"><div class="metric-label">Total Deals</div><div class="metric-value" id="m-total">0</div></div>
+      <div class="metric"><div class="metric-label">Total Pipeline</div><div class="metric-value" id="m-pipeline">₱0</div></div>
+      <div class="metric"><div class="metric-label">Closed Won</div><div class="metric-value" id="m-won">0</div></div>
+      <div class="metric"><div class="metric-label">Won Value</div><div class="metric-value" id="m-wonval">₱0</div></div>
+    </div>
+    <div class="table-card">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th class="g-deal">Company</th>
+              <th class="g-deal">Sales Rep</th>
+              <th class="g-deal">Phase</th>
+              <th class="g-deal">Value (PHP)</th>
+              <th class="g-deal">Forecast</th>
+              <th class="g-deal">PCD</th>
+              <th class="g-task">Catalyst</th>
+              <th class="g-task">Catalyst Task</th>
+              <th class="g-task">Sales Task</th>
+              <th class="g-task">LDU Task</th>
+              <th class="g-task">Marketing Task</th>
+              <th class="g-task">Prod. Mktg Task</th>
+              <th class="g-task">Product Task</th>
+              <th class="g-deal"></th>
+            </tr>
+          </thead>
+          <tbody id="deal-table">
+            <tr><td colspan="14" class="empty-state">
+              <p>No deals registered yet.</p>
+              <span class="empty-link" onclick="switchTab('form')">Register your first deal →</span>
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let deals = [];
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['form','dashboard'][i] === tab));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  if (tab === 'dashboard') renderTable();
+}
+
+function registerDeal() {
+  const sales = document.getElementById('f-sales').value.trim();
+  const company = document.getElementById('f-company').value.trim();
+  const phase = document.getElementById('f-phase').value;
+  const value = parseFloat(document.getElementById('f-value').value);
+  const forecast = document.getElementById('f-forecast').value;
+  const pcd = document.getElementById('f-pcd').value;
+  const catalystName = document.getElementById('f-catalyst-name').value.trim();
+  const catalystTask = document.getElementById('f-catalyst-task').value.trim();
+  const taskSales = document.getElementById('f-task-sales').value.trim();
+  const taskLdu = document.getElementById('f-task-ldu').value.trim();
+  const taskMkt = document.getElementById('f-task-marketing').value.trim();
+  const taskProdMkt = document.getElementById('f-task-prodmkt').value.trim();
+  const taskProduct = document.getElementById('f-task-product').value.trim();
+
+  if (!sales || !company || !phase || isNaN(value) || !forecast) {
+    alert('Please fill in Sales Rep, Company, Phase, Value, and Forecast Category.');
+    return;
+  }
+
+  deals.push({ id: Date.now(), sales, company, phase, value, forecast, pcd, catalystName, catalystTask, taskSales, taskLdu, taskMkt, taskProdMkt, taskProduct });
+
+  ['f-sales','f-company','f-value','f-pcd','f-catalyst-name','f-catalyst-task','f-task-sales','f-task-ldu','f-task-marketing','f-task-prodmkt','f-task-product'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-phase').value = '';
+  document.getElementById('f-forecast').value = '';
+
+  showToast('Deal registered!');
+  switchTab('dashboard');
+}
+
+function updatePhase(id, val) {
+  const d = deals.find(x => x.id === id);
+  if (d) { d.phase = val; renderTable(); }
+}
+function updateTask(id, field, val) {
+  const d = deals.find(x => x.id === id);
+  if (d) d[field] = val;
+}
+function deleteDeal(id) {
+  if (!confirm('Remove this deal?')) return;
+  deals = deals.filter(x => x.id !== id);
+  renderTable();
+}
+
+function fcClass(f) {
+  return { Commit:'fc-commit', Forecast:'fc-forecast', 'Strong Upside':'fc-strong', Upside:'fc-upside' }[f] || '';
+}
+function phaseClass(p) {
+  return { Active:'p-active', Nurture:'p-nurture', Won:'p-won', Lost:'p-lost', Disqualified:'p-disqualified' }[p] || '';
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  return new Date(d + 'T00:00:00').toLocaleDateString('en-PH', { month:'short', day:'numeric', year:'numeric' });
+}
+function taskCell(d, field) {
+  return `<td><textarea class="task-input" rows="2" onchange="updateTask(${d.id},'${field}',this.value)">${d[field] || ''}</textarea></td>`;
+}
+
+function renderTable() {
+  const tbody = document.getElementById('deal-table');
+  if (!deals.length) {
+    tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><p>No deals registered yet.</p><span class="empty-link" onclick="switchTab('form')">Register your first deal →</span></td></tr>`;
+  } else {
+    tbody.innerHTML = deals.map(d => `
+      <tr>
+        <td style="font-weight:600;white-space:nowrap">${d.company}</td>
+        <td style="white-space:nowrap">${d.sales}</td>
+        <td>
+          <select class="phase-select" onchange="updatePhase(${d.id},this.value)">
+            ${['Active','Nurture','Won','Lost','Disqualified'].map(p=>`<option ${d.phase===p?'selected':''}>${p}</option>`).join('')}
+          </select>
+        </td>
+        <td style="white-space:nowrap">₱${Math.round(d.value).toLocaleString()}</td>
+        <td><span class="badge ${fcClass(d.forecast)}">${d.forecast}</span></td>
+        <td style="white-space:nowrap;font-size:12px;color:#888">${fmtDate(d.pcd)}</td>
+        <td style="white-space:nowrap;font-weight:500">${d.catalystName || '—'}</td>
+        ${taskCell(d,'catalystTask')}
+        ${taskCell(d,'taskSales')}
+        ${taskCell(d,'taskLdu')}
+        ${taskCell(d,'taskMkt')}
+        ${taskCell(d,'taskProdMkt')}
+        ${taskCell(d,'taskProduct')}
+        <td><button class="del-btn" onclick="deleteDeal(${d.id})">✕</button></td>
+      </tr>
+    `).join('');
+  }
+
+  const won = deals.filter(d => d.phase === 'Won');
+  const pipe = deals.filter(d => !['Lost','Disqualified'].includes(d.phase));
+  document.getElementById('m-total').textContent = deals.length;
+  document.getElementById('m-pipeline').textContent = '₱' + Math.round(pipe.reduce((s,d)=>s+d.value,0)).toLocaleString();
+  document.getElementById('m-won').textContent = won.length;
+  document.getElementById('m-wonval').textContent = '₱' + Math.round(won.reduce((s,d)=>s+d.value,0)).toLocaleString();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
