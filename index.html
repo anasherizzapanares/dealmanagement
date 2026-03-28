@@ -343,18 +343,21 @@ async function addRep() {
   const name = input.value.trim();
   if (!name) return;
   if (reps.includes(name)) { showToast('Rep already exists', 'error'); return; }
-  setBtn('btn-add-rep', 'Saving...', true);
+  const btn = document.getElementById('btn-add-rep');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+  const rollback = [...reps];
+  reps.push(name);
+  input.value = '';
+  syncRepDropdown(); syncRepFilter(); syncModalReps(); renderRepList();
   try {
-    reps.push(name);
     await setDoc(repsDoc, { list: reps });
-    input.value = '';
-    syncRepDropdown(); syncRepFilter(); syncModalReps(); renderRepList();
     showToast(`${name} added!`, 'success');
   } catch(e) {
-    reps = reps.filter(r => r !== name);
+    reps = rollback;
+    syncRepDropdown(); syncRepFilter(); syncModalReps(); renderRepList();
     showToast('Failed to save rep', 'error');
   }
-  setBtn('btn-add-rep', '+ Add Rep', false);
+  btn.textContent = '+ Add Rep'; btn.disabled = false;
 }
 
 async function removeRep(name) {
@@ -400,7 +403,8 @@ async function registerDeal() {
   if (!sales || !company || !phase || isNaN(value) || !forecast) {
     showToast('Fill in all required fields', 'error'); return;
   }
-  setBtn('btn-register', 'Registering...', true);
+  const btn = document.getElementById('btn-register');
+  btn.textContent = 'Registering...'; btn.disabled = true;
   try {
     await addDoc(dealsCol, {
       sales, company, phase, value, forecast,
@@ -420,8 +424,10 @@ async function registerDeal() {
     document.getElementById('f-forecast').value = '';
     showToast('Deal registered!', 'success');
     switchTab('dashboard');
-  } catch(e) { showToast('Failed to register deal', 'error'); }
-  setBtn('btn-register', 'Register Deal →', false);
+  } catch(e) {
+    showToast('Failed to register deal — check connection', 'error');
+  }
+  btn.textContent = 'Register Deal →'; btn.disabled = false;
 }
 
 /* ── Edit Modal ── */
