@@ -326,10 +326,15 @@ async function addRep() {
   if (!name) return;
   if (reps.includes(name)) { showToast('Rep already exists'); return; }
   reps.push(name);
-  await setDoc(repsDoc, { list: reps });
   input.value = '';
   syncRepDropdown(); syncRepFilter(); syncModalReps(); renderRepList();
-  showToast(`${name} added!`);
+  showToast('Saving rep...');
+  try {
+    await setDoc(repsDoc, { list: reps });
+    showToast(`${name} saved!`);
+  } catch(e) {
+    showToast('Error saving rep');
+  }
 }
 async function removeRep(name) {
   if (!confirm(`Remove "${name}"?`)) return;
@@ -413,6 +418,9 @@ function closeModal() {
 }
 async function saveDeal() {
   if (!editingId) return;
+  const saveBtn = document.querySelector('.btn-save');
+  saveBtn.textContent = 'Saving...';
+  saveBtn.disabled = true;
   const data = {
     sales: document.getElementById('m-sales').value,
     company: document.getElementById('m-company').value.trim(),
@@ -428,9 +436,15 @@ async function saveDeal() {
     taskProdMkt: document.getElementById('m-task-prodmkt').value.trim(),
     taskProduct: document.getElementById('m-task-product').value.trim(),
   };
-  await updateDoc(doc(db, 'deals', editingId), data);
-  closeModal();
-  showToast('Deal updated!');
+  try {
+    await updateDoc(doc(db, 'deals', editingId), data);
+    closeModal();
+    showToast('Deal saved!');
+  } catch(e) {
+    saveBtn.textContent = 'Save Changes';
+    saveBtn.disabled = false;
+    showToast('Error saving — try again');
+  }
 }
 async function deleteDeal() {
   if (!editingId) return;
@@ -503,8 +517,12 @@ function switchTab(tab) {
 
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  t.textContent = msg;
+  t.classList.remove('show');
+  void t.offsetWidth;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
 async function updatePhase(id, val) { await updateDoc(doc(db,'deals',id), { phase: val }); }
