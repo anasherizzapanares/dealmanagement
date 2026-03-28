@@ -4,125 +4,160 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Deal Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; }
+:root {
+  --green: #32CE13;
+  --green-50: #E9FAE5;
+  --green-100: #C9F3BE;
+  --green-200: #A6EB93;
+  --green-700: #2AB410;
+  --green-800: #239A0D;
+  --deep: #092903;
+  --ubas: #8139EE;
+  --ubas-50: #F5F3FF;
+  --ubas-100: #EEE9FE;
+  --ubas-200: #DED6FE;
+  --ubas-700: #7227DA;
+  --lime: #D2F612;
+  --bg1: #F7F5F2;
+  --bg2: #F7F9ED;
+  --bg4: #E1F6C8;
+  --border: #E2E0DC;
+  --text: #092903;
+  --text-muted: #5A6B55;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Rubik', sans-serif; background: var(--bg1); color: var(--text); min-height: 100vh; }
 
-  header { background: #fff; border-bottom: 1px solid #e0e0dc; padding: 16px 32px; display: flex; align-items: center; gap: 12px; }
-  header h1 { font-size: 16px; font-weight: 600; color: #1a1a1a; }
-  header span { font-size: 12px; color: #888; }
+header { background: var(--deep); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+.header-left { display: flex; align-items: center; gap: 10px; }
+.logo-mark { width: 28px; height: 28px; }
+header h1 { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.01em; }
+.sync-status { font-size: 12px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 6px; }
+.sync-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: background 0.3s; }
+.sync-dot.live { background: var(--green); }
 
-  .tabs { display: flex; gap: 0; background: #fff; border-bottom: 1px solid #e0e0dc; padding: 0 32px; }
-  .tab { padding: 12px 24px; font-size: 14px; cursor: pointer; border: none; background: none; color: #888; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: inherit; }
-  .tab.active { color: #1a1a1a; border-bottom-color: #1D9E75; font-weight: 500; }
+.tabs { display: flex; background: #fff; border-bottom: 1px solid var(--border); padding: 0 32px; }
+.tab { padding: 12px 22px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: none; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: 'Rubik', sans-serif; letter-spacing: 0.01em; }
+.tab.active { color: var(--deep); border-bottom-color: var(--green); }
 
-  .content { padding: 32px; max-width: 1400px; margin: 0 auto; }
-  .section { display: none; }
-  .section.active { display: block; }
+.content { padding: 28px 32px; max-width: 1600px; margin: 0 auto; }
+.section { display: none; }
+.section.active { display: block; }
 
-  /* Form */
-  .form-card { background: #fff; border-radius: 12px; border: 1px solid #e0e0dc; padding: 28px; max-width: 720px; }
-  .form-card h2 { font-size: 15px; font-weight: 600; margin-bottom: 20px; color: #1a1a1a; }
-  .form-section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #1D9E75; margin: 24px 0 12px; padding-top: 20px; border-top: 1px solid #f0f0ec; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group.full { grid-column: 1 / -1; }
-  label { font-size: 12px; font-weight: 500; color: #666; text-transform: uppercase; letter-spacing: 0.04em; }
-  input, select, textarea {
-    font-family: inherit; font-size: 14px; padding: 9px 12px;
-    border: 1px solid #ddd; border-radius: 8px;
-    background: #fff; color: #1a1a1a; width: 100%;
-    transition: border-color 0.15s;
-  }
-  input:focus, select:focus, textarea:focus { outline: none; border-color: #1D9E75; }
-  textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
-  .btn-submit {
-    margin-top: 24px; padding: 12px 20px;
-    background: #1D9E75; color: #fff; border: none;
-    border-radius: 8px; font-size: 14px; font-weight: 500;
-    cursor: pointer; width: 100%; font-family: inherit;
-    transition: background 0.15s;
-  }
-  .btn-submit:hover { background: #0F6E56; }
+/* Form */
+.form-card { background: #fff; border-radius: 14px; border: 1px solid var(--border); padding: 28px; max-width: 740px; }
+.form-card h2 { font-size: 15px; font-weight: 600; margin-bottom: 22px; color: var(--deep); }
+.form-section-title { grid-column: 1/-1; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--green-800); margin-top: 4px; padding-top: 16px; border-top: 1px solid var(--bg2); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1/-1; }
+label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+input, select, textarea {
+  font-family: 'Rubik', sans-serif; font-size: 14px; padding: 9px 12px;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg1); color: var(--text); width: 100%; transition: border-color 0.15s, background 0.15s;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green); background: #fff; }
+textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+.btn-submit {
+  margin-top: 22px; padding: 12px 20px;
+  background: var(--green); color: var(--deep); border: none;
+  border-radius: 8px; font-size: 14px; font-weight: 600;
+  cursor: pointer; width: 100%; font-family: 'Rubik', sans-serif;
+  letter-spacing: 0.01em; transition: background 0.15s;
+}
+.btn-submit:hover { background: var(--green-700); }
 
-  /* Dashboard */
-  .summary-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
-  .metric { background: #fff; border: 1px solid #e0e0dc; border-radius: 10px; padding: 16px 20px; }
-  .metric-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
-  .metric-value { font-size: 22px; font-weight: 600; color: #1a1a1a; }
+/* Manage Reps */
+.rep-card { background: #fff; border-radius: 14px; border: 1px solid var(--border); padding: 24px; max-width: 480px; }
+.rep-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--deep); }
+.rep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.rep-item { display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; background: var(--bg1); border-radius: 8px; border: 1px solid var(--border); font-size: 14px; }
+.rep-del { background: none; border: none; color: #ccc; cursor: pointer; font-size: 14px; }
+.rep-del:hover { color: #e24b4a; }
+.rep-add-row { display: flex; gap: 8px; }
+.rep-add-row input { flex: 1; }
+.btn-add { padding: 9px 16px; background: var(--deep); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'Rubik', sans-serif; white-space: nowrap; }
+.btn-add:hover { background: #1a4d10; }
 
-  .table-card { background: #fff; border: 1px solid #e0e0dc; border-radius: 12px; overflow: hidden; }
-  .table-scroll { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1200px; }
-  th {
-    text-align: left; padding: 10px 14px;
-    font-size: 11px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.04em; white-space: nowrap;
-    border-bottom: 1px solid #e0e0dc;
-  }
-  th.g-deal { background: #f0faf6; color: #0F6E56; }
-  th.g-task { background: #f3f1fe; color: #3C3489; }
-  td { padding: 10px 14px; border-bottom: 1px solid #f0f0ec; vertical-align: top; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: #fafaf8; }
+/* Dashboard */
+.dash-top { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.summary-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+.metric { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+.metric-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
+.metric-value { font-size: 22px; font-weight: 600; color: var(--deep); }
 
-  .badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 500; }
-  .p-active { background: #E6F1FB; color: #0C447C; }
-  .p-nurture { background: #FAEEDA; color: #633806; }
-  .p-won { background: #EAF3DE; color: #27500A; }
-  .p-lost { background: #FCEBEB; color: #791F1F; }
-  .p-disqualified { background: #f1f0ee; color: #555; }
-  .fc-commit { background: #EEEDFE; color: #3C3489; }
-  .fc-forecast { background: #E6F1FB; color: #0C447C; }
-  .fc-strong { background: #E1F5EE; color: #085041; }
-  .fc-upside { background: #FAEEDA; color: #633806; }
+.filters { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; min-width: 210px; flex-shrink: 0; }
+.filters h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 14px; }
+.filter-section { margin-bottom: 16px; }
+.filter-section:last-child { margin-bottom: 0; }
+.filter-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--green-800); margin-bottom: 8px; }
+.filter-select { width: 100%; font-size: 13px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 7px; font-family: 'Rubik', sans-serif; background: var(--bg1); color: var(--text); }
+.check-list { display: flex; flex-direction: column; gap: 7px; }
+.check-item { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; color: var(--text); }
+.check-item input[type=checkbox] { width: 14px; height: 14px; accent-color: var(--green); cursor: pointer; }
+.btn-clear { margin-top: 14px; width: 100%; padding: 8px; background: none; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; color: var(--text-muted); cursor: pointer; font-family: 'Rubik', sans-serif; }
+.btn-clear:hover { border-color: var(--green); color: var(--green-800); }
 
-  .phase-select {
-    font-size: 12px; padding: 4px 8px; border-radius: 6px;
-    border: 1px solid #ddd; background: #fff; color: #1a1a1a;
-    cursor: pointer; font-family: inherit;
-  }
-  .task-input {
-    font-size: 12px; padding: 5px 8px; border-radius: 6px;
-    border: 1px solid #e0e0dc; background: #fafaf8; color: #1a1a1a;
-    width: 100%; min-width: 140px; resize: none;
-    font-family: inherit; line-height: 1.4;
-  }
-  .task-input:focus { outline: none; border-color: #1D9E75; background: #fff; }
-  .del-btn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 16px; padding: 2px 4px; transition: color 0.15s; }
-  .del-btn:hover { color: #e24b4a; }
+.table-area { flex: 1; min-width: 0; }
+.table-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1300px; }
+th { text-align: left; padding: 10px 14px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap; border-bottom: 1px solid var(--border); }
+th.g-deal { background: var(--green-50); color: var(--green-800); }
+th.g-task { background: var(--ubas-50); color: var(--ubas-700); }
+td { padding: 10px 14px; border-bottom: 1px solid #f2f0ec; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg1); }
 
-  .empty-state { text-align: center; padding: 48px 20px; color: #aaa; font-size: 14px; }
-  .empty-state p { margin-bottom: 8px; }
-  .empty-link { color: #1D9E75; cursor: pointer; text-decoration: underline; font-size: 13px; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 500; }
+.fc-commit { background: var(--ubas-100); color: var(--ubas-700); }
+.fc-forecast { background: #D8EBFF; color: #1356BA; }
+.fc-strong { background: var(--green-100); color: var(--green-800); }
+.fc-upside { background: #FFF4D3; color: #A1470B; }
 
-  .toast {
-    position: fixed; bottom: 24px; right: 24px;
-    background: #1D9E75; color: #fff; padding: 12px 20px;
-    border-radius: 8px; font-size: 13px; font-weight: 500;
-    opacity: 0; transition: opacity 0.3s; pointer-events: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-  .toast.show { opacity: 1; }
+.phase-select { font-size: 12px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg1); color: var(--text); cursor: pointer; font-family: 'Rubik', sans-serif; }
+.task-input { font-size: 12px; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg1); color: var(--text); width: 100%; min-width: 140px; resize: none; font-family: 'Rubik', sans-serif; line-height: 1.4; }
+.task-input:focus { outline: none; border-color: var(--green); background: #fff; }
+.del-btn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 15px; padding: 2px 4px; }
+.del-btn:hover { color: #e24b4a; }
 
-  @media (max-width: 640px) {
-    .content { padding: 16px; }
-    .form-grid { grid-template-columns: 1fr; }
-    .form-group.full { grid-column: 1; }
-    .summary-row { grid-template-columns: 1fr 1fr; }
-  }
+.result-count { font-size: 12px; color: var(--text-muted); padding: 8px 14px; border-bottom: 1px solid #f2f0ec; }
+.empty-state { text-align: center; padding: 48px 20px; color: #aaa; font-size: 14px; }
+.empty-link { color: var(--green-800); cursor: pointer; text-decoration: underline; font-size: 13px; }
+.loading { text-align: center; padding: 48px; color: #aaa; font-size: 14px; }
+
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--deep); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; box-shadow: 0 4px 16px rgba(9,41,3,0.18); }
+.toast.show { opacity: 1; }
+
+@media (max-width: 768px) {
+  .content { padding: 16px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: 1; }
+  .summary-row { grid-template-columns: 1fr 1fr; }
+  .dash-top { flex-direction: column; }
+}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Deal Management</h1>
-  <span>FY 2025</span>
+  <div class="header-left">
+    <svg class="logo-mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="14" fill="#32CE13" opacity="0.15"/>
+      <path d="M14 22V12M14 12C14 12 10 10 8 7C11 7 14 9 14 12ZM14 12C14 12 18 10 20 7C17 7 14 9 14 12Z" stroke="#32CE13" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h1>Deal Management</h1>
+  </div>
+  <div class="sync-status"><div class="sync-dot" id="sync-dot"></div><span id="sync-label">Connecting...</span></div>
 </header>
 
 <div class="tabs">
   <button class="tab active" onclick="switchTab('form')">Register Deal</button>
   <button class="tab" onclick="switchTab('dashboard')">Dashboard</button>
+  <button class="tab" onclick="switchTab('settings')">Manage Reps</button>
 </div>
 
 <div class="content">
@@ -132,10 +167,10 @@
     <div class="form-card">
       <h2>Register a New Deal</h2>
       <div class="form-grid">
-        <div class="form-section-title" style="grid-column:1/-1">Deal Info</div>
+        <div class="form-section-title">Deal Info</div>
         <div class="form-group">
           <label>Sales Rep</label>
-          <input type="text" id="f-sales" placeholder="Name" />
+          <select id="f-sales"></select>
         </div>
         <div class="form-group">
           <label>Company</label>
@@ -167,8 +202,7 @@
           <label>PCD (Projected Close Date)</label>
           <input type="date" id="f-pcd" />
         </div>
-
-        <div class="form-section-title" style="grid-column:1/-1">Tasks by Team</div>
+        <div class="form-section-title">Tasks by Team</div>
         <div class="form-group">
           <label>Catalyst (Name)</label>
           <input type="text" id="f-catalyst-name" placeholder="e.g. Patrick, Alex" />
@@ -204,40 +238,75 @@
 
   <!-- DASHBOARD -->
   <div id="dashboard" class="section">
-    <div class="summary-row">
-      <div class="metric"><div class="metric-label">Total Deals</div><div class="metric-value" id="m-total">0</div></div>
-      <div class="metric"><div class="metric-label">Total Pipeline</div><div class="metric-value" id="m-pipeline">₱0</div></div>
-      <div class="metric"><div class="metric-label">Closed Won</div><div class="metric-value" id="m-won">0</div></div>
-      <div class="metric"><div class="metric-label">Won Value</div><div class="metric-value" id="m-wonval">₱0</div></div>
+    <div class="dash-top">
+      <div class="filters">
+        <h4>Filters</h4>
+        <div class="filter-section">
+          <div class="filter-label">Sales Rep</div>
+          <select class="filter-select" id="filter-rep" onchange="applyFilters()">
+            <option value="">All Reps</option>
+          </select>
+        </div>
+        <div class="filter-section">
+          <div class="filter-label">Deal Phase</div>
+          <div class="check-list" id="filter-phases">
+            <label class="check-item"><input type="checkbox" value="Active" checked onchange="applyFilters()" /> Active</label>
+            <label class="check-item"><input type="checkbox" value="Nurture" checked onchange="applyFilters()" /> Nurture</label>
+            <label class="check-item"><input type="checkbox" value="Won" checked onchange="applyFilters()" /> Won</label>
+            <label class="check-item"><input type="checkbox" value="Lost" checked onchange="applyFilters()" /> Lost</label>
+            <label class="check-item"><input type="checkbox" value="Disqualified" checked onchange="applyFilters()" /> Disqualified</label>
+          </div>
+        </div>
+        <button class="btn-clear" onclick="clearFilters()">Clear filters</button>
+      </div>
+
+      <div class="table-area">
+        <div class="summary-row">
+          <div class="metric"><div class="metric-label">Total Deals</div><div class="metric-value" id="m-total">—</div></div>
+          <div class="metric"><div class="metric-label">Total Pipeline</div><div class="metric-value" id="m-pipeline">—</div></div>
+          <div class="metric"><div class="metric-label">Closed Won</div><div class="metric-value" id="m-won">—</div></div>
+          <div class="metric"><div class="metric-label">Won Value</div><div class="metric-value" id="m-wonval">—</div></div>
+        </div>
+        <div class="table-card">
+          <div class="result-count" id="result-count"></div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th class="g-deal">Company</th>
+                  <th class="g-deal">Sales Rep</th>
+                  <th class="g-deal">Phase</th>
+                  <th class="g-deal">Value (PHP)</th>
+                  <th class="g-deal">Forecast</th>
+                  <th class="g-deal">PCD</th>
+                  <th class="g-task">Catalyst</th>
+                  <th class="g-task">Catalyst Task</th>
+                  <th class="g-task">Sales Task</th>
+                  <th class="g-task">LDU Task</th>
+                  <th class="g-task">Marketing Task</th>
+                  <th class="g-task">Prod. Mktg Task</th>
+                  <th class="g-task">Product Task</th>
+                  <th class="g-deal"></th>
+                </tr>
+              </thead>
+              <tbody id="deal-table">
+                <tr><td colspan="14" class="loading">Connecting to database...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="table-card">
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th class="g-deal">Company</th>
-              <th class="g-deal">Sales Rep</th>
-              <th class="g-deal">Phase</th>
-              <th class="g-deal">Value (PHP)</th>
-              <th class="g-deal">Forecast</th>
-              <th class="g-deal">PCD</th>
-              <th class="g-task">Catalyst</th>
-              <th class="g-task">Catalyst Task</th>
-              <th class="g-task">Sales Task</th>
-              <th class="g-task">LDU Task</th>
-              <th class="g-task">Marketing Task</th>
-              <th class="g-task">Prod. Mktg Task</th>
-              <th class="g-task">Product Task</th>
-              <th class="g-deal"></th>
-            </tr>
-          </thead>
-          <tbody id="deal-table">
-            <tr><td colspan="14" class="empty-state">
-              <p>No deals registered yet.</p>
-              <span class="empty-link" onclick="switchTab('form')">Register your first deal →</span>
-            </td></tr>
-          </tbody>
-        </table>
+  </div>
+
+  <!-- MANAGE REPS -->
+  <div id="settings" class="section">
+    <div class="rep-card">
+      <h3>Manage Sales Reps</h3>
+      <div class="rep-list" id="rep-list"><p style="font-size:13px;color:#aaa">Loading...</p></div>
+      <div class="rep-add-row">
+        <input type="text" id="new-rep" placeholder="Rep name" onkeydown="if(event.key==='Enter') addRep()" />
+        <button class="btn-add" onclick="addRep()">+ Add Rep</button>
       </div>
     </div>
   </div>
@@ -246,18 +315,88 @@
 
 <div class="toast" id="toast"></div>
 
-<script>
-let deals = [];
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['form','dashboard'][i] === tab));
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(tab).classList.add('active');
-  if (tab === 'dashboard') renderTable();
+const firebaseConfig = {
+  apiKey: "AIzaSyDC2w12BKO3XBy3GXVnOyDnzj0wt9xAgzc",
+  authDomain: "deal-management-9f478.firebaseapp.com",
+  projectId: "deal-management-9f478",
+  storageBucket: "deal-management-9f478.firebasestorage.app",
+  messagingSenderId: "320360902622",
+  appId: "1:320360902622:web:4d9dbfd64cab3b7bd5f74f"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let deals = [];
+let reps = [];
+let taskTimers = {};
+
+function setSync(live) {
+  document.getElementById('sync-dot').className = 'sync-dot' + (live ? ' live' : '');
+  document.getElementById('sync-label').textContent = live ? 'Live' : 'Reconnecting...';
 }
 
-function registerDeal() {
-  const sales = document.getElementById('f-sales').value.trim();
+const repsDoc = doc(db, 'config', 'reps');
+
+async function loadReps() {
+  const snap = await getDoc(repsDoc);
+  if (snap.exists()) {
+    reps = snap.data().list || [];
+  } else {
+    reps = ['Java','Jean','Patrick','Alex','Miriam'];
+    await setDoc(repsDoc, { list: reps });
+  }
+  syncRepDropdown(); syncRepFilter(); renderRepList();
+}
+
+async function addRep() {
+  const input = document.getElementById('new-rep');
+  const name = input.value.trim();
+  if (!name) return;
+  if (reps.includes(name)) { showToast('Rep already exists'); return; }
+  reps.push(name);
+  await setDoc(repsDoc, { list: reps });
+  input.value = '';
+  syncRepDropdown(); syncRepFilter(); renderRepList();
+  showToast(`${name} added!`);
+}
+
+async function removeRep(name) {
+  if (!confirm(`Remove "${name}"?`)) return;
+  reps = reps.filter(r => r !== name);
+  await setDoc(repsDoc, { list: reps });
+  syncRepDropdown(); syncRepFilter(); renderRepList();
+}
+
+function renderRepList() {
+  document.getElementById('rep-list').innerHTML = reps.length
+    ? reps.map(r => `<div class="rep-item"><span>${r}</span><button class="rep-del" onclick="window._removeRep('${r}')">✕</button></div>`).join('')
+    : '<p style="font-size:13px;color:#aaa">No reps yet.</p>';
+}
+function syncRepDropdown() {
+  const sel = document.getElementById('f-sales');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Select rep</option>' + reps.map(r => `<option ${r===cur?'selected':''}>${r}</option>`).join('');
+}
+function syncRepFilter() {
+  const sel = document.getElementById('filter-rep');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">All Reps</option>' + reps.map(r => `<option ${r===cur?'selected':''}>${r}</option>`).join('');
+}
+
+const dealsCol = collection(db, 'deals');
+onSnapshot(dealsCol, snap => {
+  deals = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+  setSync(true);
+  renderTable();
+}, () => setSync(false));
+
+async function registerDeal() {
+  const sales = document.getElementById('f-sales').value;
   const company = document.getElementById('f-company').value.trim();
   const phase = document.getElementById('f-phase').value;
   const value = parseFloat(document.getElementById('f-value').value);
@@ -276,79 +415,93 @@ function registerDeal() {
     return;
   }
 
-  deals.push({ id: Date.now(), sales, company, phase, value, forecast, pcd, catalystName, catalystTask, taskSales, taskLdu, taskMkt, taskProdMkt, taskProduct });
+  await addDoc(dealsCol, { sales, company, phase, value, forecast, pcd, catalystName, catalystTask, taskSales, taskLdu, taskMkt, taskProdMkt, taskProduct, createdAt: Date.now() });
 
-  ['f-sales','f-company','f-value','f-pcd','f-catalyst-name','f-catalyst-task','f-task-sales','f-task-ldu','f-task-marketing','f-task-prodmkt','f-task-product'].forEach(id => document.getElementById(id).value = '');
+  ['f-company','f-value','f-pcd','f-catalyst-name','f-catalyst-task','f-task-sales','f-task-ldu','f-task-marketing','f-task-prodmkt','f-task-product'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-sales').value = '';
   document.getElementById('f-phase').value = '';
   document.getElementById('f-forecast').value = '';
-
   showToast('Deal registered!');
   switchTab('dashboard');
 }
 
-function updatePhase(id, val) {
-  const d = deals.find(x => x.id === id);
-  if (d) { d.phase = val; renderTable(); }
+async function updatePhase(id, val) {
+  await updateDoc(doc(db, 'deals', id), { phase: val });
 }
 function updateTask(id, field, val) {
-  const d = deals.find(x => x.id === id);
-  if (d) d[field] = val;
+  clearTimeout(taskTimers[id+field]);
+  taskTimers[id+field] = setTimeout(() => updateDoc(doc(db,'deals',id), { [field]: val }), 600);
 }
-function deleteDeal(id) {
+async function deleteDeal(id) {
   if (!confirm('Remove this deal?')) return;
-  deals = deals.filter(x => x.id !== id);
+  await deleteDoc(doc(db, 'deals', id));
+}
+
+function getCheckedPhases() {
+  return [...document.querySelectorAll('#filter-phases input:checked')].map(c => c.value);
+}
+function clearFilters() {
+  document.getElementById('filter-rep').value = '';
+  document.querySelectorAll('#filter-phases input').forEach(c => c.checked = true);
   renderTable();
 }
 
-function fcClass(f) {
-  return { Commit:'fc-commit', Forecast:'fc-forecast', 'Strong Upside':'fc-strong', Upside:'fc-upside' }[f] || '';
-}
-function phaseClass(p) {
-  return { Active:'p-active', Nurture:'p-nurture', Won:'p-won', Lost:'p-lost', Disqualified:'p-disqualified' }[p] || '';
-}
+function fcClass(f) { return { Commit:'fc-commit', Forecast:'fc-forecast', 'Strong Upside':'fc-strong', Upside:'fc-upside' }[f] || ''; }
 function fmtDate(d) {
   if (!d) return '—';
-  return new Date(d + 'T00:00:00').toLocaleDateString('en-PH', { month:'short', day:'numeric', year:'numeric' });
+  return new Date(d+'T00:00:00').toLocaleDateString('en-PH', { month:'short', day:'numeric', year:'numeric' });
 }
 function taskCell(d, field) {
-  return `<td><textarea class="task-input" rows="2" onchange="updateTask(${d.id},'${field}',this.value)">${d[field] || ''}</textarea></td>`;
+  return `<td><textarea class="task-input" rows="2" onchange="window._updateTask('${d._id}','${field}',this.value)">${d[field]||''}</textarea></td>`;
 }
 
 function renderTable() {
+  const repFilter = document.getElementById('filter-rep').value;
+  const phaseFilter = getCheckedPhases();
+  const filtered = deals.filter(d => (!repFilter || d.sales===repFilter) && phaseFilter.includes(d.phase));
+
+  document.getElementById('result-count').textContent = `${filtered.length} deal${filtered.length!==1?'s':''}`;
   const tbody = document.getElementById('deal-table');
-  if (!deals.length) {
-    tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><p>No deals registered yet.</p><span class="empty-link" onclick="switchTab('form')">Register your first deal →</span></td></tr>`;
+
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><p>No deals match your filters.</p>${!deals.length?`<br><span class="empty-link" onclick="switchTab('form')">Register your first deal →</span>`:''}</td></tr>`;
   } else {
-    tbody.innerHTML = deals.map(d => `
+    tbody.innerHTML = filtered.map(d => `
       <tr>
         <td style="font-weight:600;white-space:nowrap">${d.company}</td>
         <td style="white-space:nowrap">${d.sales}</td>
-        <td>
-          <select class="phase-select" onchange="updatePhase(${d.id},this.value)">
-            ${['Active','Nurture','Won','Lost','Disqualified'].map(p=>`<option ${d.phase===p?'selected':''}>${p}</option>`).join('')}
-          </select>
-        </td>
+        <td><select class="phase-select" onchange="window._updatePhase('${d._id}',this.value)">
+          ${['Active','Nurture','Won','Lost','Disqualified'].map(p=>`<option ${d.phase===p?'selected':''}>${p}</option>`).join('')}
+        </select></td>
         <td style="white-space:nowrap">₱${Math.round(d.value).toLocaleString()}</td>
         <td><span class="badge ${fcClass(d.forecast)}">${d.forecast}</span></td>
-        <td style="white-space:nowrap;font-size:12px;color:#888">${fmtDate(d.pcd)}</td>
-        <td style="white-space:nowrap;font-weight:500">${d.catalystName || '—'}</td>
+        <td style="white-space:nowrap;font-size:12px;color:var(--text-muted)">${fmtDate(d.pcd)}</td>
+        <td style="white-space:nowrap;font-weight:500">${d.catalystName||'—'}</td>
         ${taskCell(d,'catalystTask')}
         ${taskCell(d,'taskSales')}
         ${taskCell(d,'taskLdu')}
         ${taskCell(d,'taskMkt')}
         ${taskCell(d,'taskProdMkt')}
         ${taskCell(d,'taskProduct')}
-        <td><button class="del-btn" onclick="deleteDeal(${d.id})">✕</button></td>
-      </tr>
-    `).join('');
+        <td><button class="del-btn" onclick="window._deleteDeal('${d._id}')">✕</button></td>
+      </tr>`).join('');
   }
 
-  const won = deals.filter(d => d.phase === 'Won');
+  const won = deals.filter(d => d.phase==='Won');
   const pipe = deals.filter(d => !['Lost','Disqualified'].includes(d.phase));
   document.getElementById('m-total').textContent = deals.length;
-  document.getElementById('m-pipeline').textContent = '₱' + Math.round(pipe.reduce((s,d)=>s+d.value,0)).toLocaleString();
+  document.getElementById('m-pipeline').textContent = '₱'+Math.round(pipe.reduce((s,d)=>s+d.value,0)).toLocaleString();
   document.getElementById('m-won').textContent = won.length;
-  document.getElementById('m-wonval').textContent = '₱' + Math.round(won.reduce((s,d)=>s+d.value,0)).toLocaleString();
+  document.getElementById('m-wonval').textContent = '₱'+Math.round(won.reduce((s,d)=>s+d.value,0)).toLocaleString();
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['form','dashboard','settings'][i]===tab));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  if (tab==='dashboard') { syncRepFilter(); renderTable(); }
+  if (tab==='form') syncRepDropdown();
+  if (tab==='settings') renderRepList();
 }
 
 function showToast(msg) {
@@ -356,6 +509,18 @@ function showToast(msg) {
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+window.switchTab = switchTab;
+window.applyFilters = renderTable;
+window.clearFilters = clearFilters;
+window.registerDeal = registerDeal;
+window.addRep = addRep;
+window._removeRep = removeRep;
+window._updatePhase = updatePhase;
+window._updateTask = updateTask;
+window._deleteDeal = deleteDeal;
+
+loadReps();
 </script>
 </body>
 </html>
