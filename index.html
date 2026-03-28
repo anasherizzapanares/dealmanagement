@@ -7,25 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
 :root {
-  --green: #32CE13;
-  --green-50: #E9FAE5;
-  --green-100: #C9F3BE;
-  --green-200: #A6EB93;
-  --green-700: #2AB410;
-  --green-800: #239A0D;
-  --deep: #092903;
-  --ubas: #8139EE;
-  --ubas-50: #F5F3FF;
-  --ubas-100: #EEE9FE;
-  --ubas-200: #DED6FE;
-  --ubas-700: #7227DA;
-  --lime: #D2F612;
-  --bg1: #F7F5F2;
-  --bg2: #F7F9ED;
-  --bg4: #E1F6C8;
-  --border: #E2E0DC;
-  --text: #092903;
-  --text-muted: #5A6B55;
+  --green: #32CE13; --green-50: #E9FAE5; --green-100: #C9F3BE; --green-200: #A6EB93;
+  --green-700: #2AB410; --green-800: #239A0D; --deep: #092903;
+  --ubas: #8139EE; --ubas-50: #F5F3FF; --ubas-100: #EEE9FE; --ubas-200: #DED6FE; --ubas-700: #7227DA;
+  --bg1: #F7F5F2; --bg2: #F7F9ED; --border: #E2E0DC; --text: #092903; --text-muted: #5A6B55;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Rubik', sans-serif; background: var(--bg1); color: var(--text); min-height: 100vh; }
@@ -39,12 +24,11 @@ header h1 { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.0
 .sync-dot.live { background: var(--green); }
 
 .tabs { display: flex; background: #fff; border-bottom: 1px solid var(--border); padding: 0 32px; }
-.tab { padding: 12px 22px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: none; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: 'Rubik', sans-serif; letter-spacing: 0.01em; }
+.tab { padding: 12px 22px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: none; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: 'Rubik', sans-serif; }
 .tab.active { color: var(--deep); border-bottom-color: var(--green); }
 
 .content { padding: 28px 32px; max-width: 1600px; margin: 0 auto; }
-.section { display: none; }
-.section.active { display: block; }
+.section { display: none; } .section.active { display: block; }
 
 /* Form */
 .form-card { background: #fff; border-radius: 14px; border: 1px solid var(--border); padding: 28px; max-width: 740px; }
@@ -54,20 +38,10 @@ header h1 { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.0
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 .form-group.full { grid-column: 1/-1; }
 label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
-input, select, textarea {
-  font-family: 'Rubik', sans-serif; font-size: 14px; padding: 9px 12px;
-  border: 1px solid var(--border); border-radius: 8px;
-  background: var(--bg1); color: var(--text); width: 100%; transition: border-color 0.15s, background 0.15s;
-}
+input, select, textarea { font-family: 'Rubik', sans-serif; font-size: 14px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg1); color: var(--text); width: 100%; transition: border-color 0.15s, background 0.15s; }
 input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green); background: #fff; }
 textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
-.btn-submit {
-  margin-top: 22px; padding: 12px 20px;
-  background: var(--green); color: var(--deep); border: none;
-  border-radius: 8px; font-size: 14px; font-weight: 600;
-  cursor: pointer; width: 100%; font-family: 'Rubik', sans-serif;
-  letter-spacing: 0.01em; transition: background 0.15s;
-}
+.btn-submit { margin-top: 22px; padding: 12px 20px; background: var(--green); color: var(--deep); border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; font-family: 'Rubik', sans-serif; transition: background 0.15s; }
 .btn-submit:hover { background: var(--green-700); }
 
 /* Manage Reps */
@@ -108,6 +82,7 @@ table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1300
 th { text-align: left; padding: 10px 14px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap; border-bottom: 1px solid var(--border); }
 th.g-deal { background: var(--green-50); color: var(--green-800); }
 th.g-task { background: var(--ubas-50); color: var(--ubas-700); }
+th.col-phase, td.col-phase { min-width: 150px; }
 td { padding: 10px 14px; border-bottom: 1px solid #f2f0ec; vertical-align: top; }
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: var(--bg1); }
@@ -118,16 +93,31 @@ tr:hover td { background: var(--bg1); }
 .fc-strong { background: var(--green-100); color: var(--green-800); }
 .fc-upside { background: #FFF4D3; color: #A1470B; }
 
-.phase-select { font-size: 12px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg1); color: var(--text); cursor: pointer; font-family: 'Rubik', sans-serif; }
+.phase-select { font-size: 12px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg1); color: var(--text); cursor: pointer; font-family: 'Rubik', sans-serif; width: 100%; }
 .task-input { font-size: 12px; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg1); color: var(--text); width: 100%; min-width: 140px; resize: none; font-family: 'Rubik', sans-serif; line-height: 1.4; }
 .task-input:focus { outline: none; border-color: var(--green); background: #fff; }
-.del-btn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 15px; padding: 2px 4px; }
-.del-btn:hover { color: #e24b4a; }
+
+.edit-btn { background: none; border: 1px solid var(--border); border-radius: 6px; color: var(--text-muted); cursor: pointer; font-size: 12px; padding: 4px 10px; font-family: 'Rubik', sans-serif; white-space: nowrap; }
+.edit-btn:hover { border-color: var(--green); color: var(--green-800); background: var(--green-50); }
 
 .result-count { font-size: 12px; color: var(--text-muted); padding: 8px 14px; border-bottom: 1px solid #f2f0ec; }
 .empty-state { text-align: center; padding: 48px 20px; color: #aaa; font-size: 14px; }
 .empty-link { color: var(--green-800); cursor: pointer; text-decoration: underline; font-size: 13px; }
 .loading { text-align: center; padding: 48px; color: #aaa; font-size: 14px; }
+
+/* Edit modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(9,41,3,0.35); z-index: 100; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: #fff; border-radius: 16px; padding: 28px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(9,41,3,0.18); }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.modal-header h3 { font-size: 15px; font-weight: 600; color: var(--deep); }
+.modal-close { background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; line-height: 1; }
+.modal-close:hover { color: var(--deep); }
+.modal-actions { display: flex; gap: 10px; margin-top: 22px; }
+.btn-save { flex: 1; padding: 11px; background: var(--green); color: var(--deep); border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Rubik', sans-serif; }
+.btn-save:hover { background: var(--green-700); }
+.btn-delete { padding: 11px 18px; background: none; border: 1px solid #fcc; border-radius: 8px; font-size: 13px; color: #c0392b; cursor: pointer; font-family: 'Rubik', sans-serif; }
+.btn-delete:hover { background: #fff0f0; }
 
 .toast { position: fixed; bottom: 24px; right: 24px; background: var(--deep); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; box-shadow: 0 4px 16px rgba(9,41,3,0.18); }
 .toast.show { opacity: 1; }
@@ -161,76 +151,30 @@ tr:hover td { background: var(--bg1); }
 </div>
 
 <div class="content">
-
-  <!-- FORM -->
+  <!-- REGISTER -->
   <div id="form" class="section active">
     <div class="form-card">
       <h2>Register a New Deal</h2>
       <div class="form-grid">
         <div class="form-section-title">Deal Info</div>
-        <div class="form-group">
-          <label>Sales Rep</label>
-          <select id="f-sales"></select>
+        <div class="form-group"><label>Sales Rep</label><select id="f-sales"></select></div>
+        <div class="form-group"><label>Company</label><input type="text" id="f-company" placeholder="Company name" /></div>
+        <div class="form-group"><label>Deal Phase</label>
+          <select id="f-phase"><option value="">Select phase</option><option>Active</option><option>Nurture</option></select>
         </div>
-        <div class="form-group">
-          <label>Company</label>
-          <input type="text" id="f-company" placeholder="Company name" />
+        <div class="form-group"><label>Deal Value (PHP)</label><input type="number" id="f-value" placeholder="0" min="0" /></div>
+        <div class="form-group"><label>Forecast Category</label>
+          <select id="f-forecast"><option value="">Select category</option><option>Commit</option><option>Forecast</option><option>Strong Upside</option><option>Upside</option></select>
         </div>
-        <div class="form-group">
-          <label>Deal Phase</label>
-          <select id="f-phase">
-            <option value="">Select phase</option>
-            <option>Active</option>
-            <option>Nurture</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Deal Value (PHP)</label>
-          <input type="number" id="f-value" placeholder="0" min="0" />
-        </div>
-        <div class="form-group">
-          <label>Forecast Category</label>
-          <select id="f-forecast">
-            <option value="">Select category</option>
-            <option>Commit</option>
-            <option>Forecast</option>
-            <option>Strong Upside</option>
-            <option>Upside</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>PCD (Projected Close Date)</label>
-          <input type="date" id="f-pcd" />
-        </div>
+        <div class="form-group"><label>PCD (Projected Close Date)</label><input type="date" id="f-pcd" /></div>
         <div class="form-section-title">Tasks by Team</div>
-        <div class="form-group">
-          <label>Catalyst (Name)</label>
-          <input type="text" id="f-catalyst-name" placeholder="e.g. Patrick, Alex" />
-        </div>
-        <div class="form-group">
-          <label>Catalyst Task</label>
-          <textarea id="f-catalyst-task" placeholder="What does Catalyst need to do?"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Sales Task</label>
-          <textarea id="f-task-sales" placeholder="What does Sales need to do?"></textarea>
-        </div>
-        <div class="form-group">
-          <label>LDU Task</label>
-          <textarea id="f-task-ldu" placeholder="What does LDU need to do?"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Marketing Task</label>
-          <textarea id="f-task-marketing" placeholder="What does Marketing need to do?"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Product Marketing Task</label>
-          <textarea id="f-task-prodmkt" placeholder="What does Product Marketing need to do?"></textarea>
-        </div>
-        <div class="form-group full">
-          <label>Product Task</label>
-          <textarea id="f-task-product" placeholder="What does the Product team need to do?"></textarea>
-        </div>
+        <div class="form-group"><label>Catalyst (Name)</label><input type="text" id="f-catalyst-name" placeholder="e.g. Patrick, Alex" /></div>
+        <div class="form-group"><label>Catalyst Task</label><textarea id="f-catalyst-task" placeholder="What does Catalyst need to do?"></textarea></div>
+        <div class="form-group"><label>Sales Task</label><textarea id="f-task-sales" placeholder="What does Sales need to do?"></textarea></div>
+        <div class="form-group"><label>LDU Task</label><textarea id="f-task-ldu" placeholder="What does LDU need to do?"></textarea></div>
+        <div class="form-group"><label>Marketing Task</label><textarea id="f-task-marketing" placeholder="What does Marketing need to do?"></textarea></div>
+        <div class="form-group"><label>Product Marketing Task</label><textarea id="f-task-prodmkt" placeholder="What does Product Marketing need to do?"></textarea></div>
+        <div class="form-group full"><label>Product Task</label><textarea id="f-task-product" placeholder="What does the Product team need to do?"></textarea></div>
       </div>
       <button class="btn-submit" onclick="registerDeal()">Register Deal →</button>
     </div>
@@ -243,9 +187,7 @@ tr:hover td { background: var(--bg1); }
         <h4>Filters</h4>
         <div class="filter-section">
           <div class="filter-label">Sales Rep</div>
-          <select class="filter-select" id="filter-rep" onchange="applyFilters()">
-            <option value="">All Reps</option>
-          </select>
+          <select class="filter-select" id="filter-rep" onchange="applyFilters()"><option value="">All Reps</option></select>
         </div>
         <div class="filter-section">
           <div class="filter-label">Deal Phase</div>
@@ -259,7 +201,6 @@ tr:hover td { background: var(--bg1); }
         </div>
         <button class="btn-clear" onclick="clearFilters()">Clear filters</button>
       </div>
-
       <div class="table-area">
         <div class="summary-row">
           <div class="metric"><div class="metric-label">Total Deals</div><div class="metric-value" id="m-total">—</div></div>
@@ -271,24 +212,22 @@ tr:hover td { background: var(--bg1); }
           <div class="result-count" id="result-count"></div>
           <div class="table-scroll">
             <table>
-              <thead>
-                <tr>
-                  <th class="g-deal">Company</th>
-                  <th class="g-deal">Sales Rep</th>
-                  <th class="g-deal">Phase</th>
-                  <th class="g-deal">Value (PHP)</th>
-                  <th class="g-deal">Forecast</th>
-                  <th class="g-deal">PCD</th>
-                  <th class="g-task">Catalyst</th>
-                  <th class="g-task">Catalyst Task</th>
-                  <th class="g-task">Sales Task</th>
-                  <th class="g-task">LDU Task</th>
-                  <th class="g-task">Marketing Task</th>
-                  <th class="g-task">Prod. Mktg Task</th>
-                  <th class="g-task">Product Task</th>
-                  <th class="g-deal"></th>
-                </tr>
-              </thead>
+              <thead><tr>
+                <th class="g-deal">Company</th>
+                <th class="g-deal">Sales Rep</th>
+                <th class="g-deal col-phase">Phase</th>
+                <th class="g-deal">Value (PHP)</th>
+                <th class="g-deal">Forecast</th>
+                <th class="g-deal">PCD</th>
+                <th class="g-task">Catalyst</th>
+                <th class="g-task">Catalyst Task</th>
+                <th class="g-task">Sales Task</th>
+                <th class="g-task">LDU Task</th>
+                <th class="g-task">Marketing Task</th>
+                <th class="g-task">Prod. Mktg Task</th>
+                <th class="g-task">Product Task</th>
+                <th class="g-deal"></th>
+              </tr></thead>
               <tbody id="deal-table">
                 <tr><td colspan="14" class="loading">Connecting to database...</td></tr>
               </tbody>
@@ -310,7 +249,41 @@ tr:hover td { background: var(--bg1); }
       </div>
     </div>
   </div>
+</div>
 
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Edit Deal</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-section-title">Deal Info</div>
+      <div class="form-group"><label>Sales Rep</label><select id="m-sales"></select></div>
+      <div class="form-group"><label>Company</label><input type="text" id="m-company" /></div>
+      <div class="form-group"><label>Deal Phase</label>
+        <select id="m-phase"><option>Active</option><option>Nurture</option><option>Won</option><option>Lost</option><option>Disqualified</option></select>
+      </div>
+      <div class="form-group"><label>Deal Value (PHP)</label><input type="number" id="m-value" min="0" /></div>
+      <div class="form-group"><label>Forecast Category</label>
+        <select id="m-forecast"><option>Commit</option><option>Forecast</option><option>Strong Upside</option><option>Upside</option></select>
+      </div>
+      <div class="form-group"><label>PCD</label><input type="date" id="m-pcd" /></div>
+      <div class="form-section-title">Tasks by Team</div>
+      <div class="form-group"><label>Catalyst (Name)</label><input type="text" id="m-catalyst-name" /></div>
+      <div class="form-group"><label>Catalyst Task</label><textarea id="m-catalyst-task"></textarea></div>
+      <div class="form-group"><label>Sales Task</label><textarea id="m-task-sales"></textarea></div>
+      <div class="form-group"><label>LDU Task</label><textarea id="m-task-ldu"></textarea></div>
+      <div class="form-group"><label>Marketing Task</label><textarea id="m-task-marketing"></textarea></div>
+      <div class="form-group"><label>Product Marketing Task</label><textarea id="m-task-prodmkt"></textarea></div>
+      <div class="form-group full"><label>Product Task</label><textarea id="m-task-product"></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="saveDeal()">Save Changes</button>
+      <button class="btn-delete" onclick="deleteDeal()">Delete Deal</button>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -330,29 +303,23 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const dealsCol = collection(db, 'deals');
+const repsDoc = doc(db, 'config', 'reps');
 
-let deals = [];
-let reps = [];
-let taskTimers = {};
+let deals = [], reps = [], taskTimers = {}, editingId = null;
 
 function setSync(live) {
   document.getElementById('sync-dot').className = 'sync-dot' + (live ? ' live' : '');
   document.getElementById('sync-label').textContent = live ? 'Live' : 'Reconnecting...';
 }
 
-const repsDoc = doc(db, 'config', 'reps');
-
+/* ── Reps ── */
 async function loadReps() {
   const snap = await getDoc(repsDoc);
-  if (snap.exists()) {
-    reps = snap.data().list || [];
-  } else {
-    reps = ['Java','Jean','Patrick','Alex','Miriam'];
-    await setDoc(repsDoc, { list: reps });
-  }
-  syncRepDropdown(); syncRepFilter(); renderRepList();
+  reps = snap.exists() ? (snap.data().list || []) : ['Java','Jean','Patrick','Alex','Miriam'];
+  if (!snap.exists()) await setDoc(repsDoc, { list: reps });
+  syncRepDropdown(); syncRepFilter(); syncModalReps(); renderRepList();
 }
-
 async function addRep() {
   const input = document.getElementById('new-rep');
   const name = input.value.trim();
@@ -361,38 +328,37 @@ async function addRep() {
   reps.push(name);
   await setDoc(repsDoc, { list: reps });
   input.value = '';
-  syncRepDropdown(); syncRepFilter(); renderRepList();
+  syncRepDropdown(); syncRepFilter(); syncModalReps(); renderRepList();
   showToast(`${name} added!`);
 }
-
 async function removeRep(name) {
   if (!confirm(`Remove "${name}"?`)) return;
   reps = reps.filter(r => r !== name);
   await setDoc(repsDoc, { list: reps });
-  syncRepDropdown(); syncRepFilter(); renderRepList();
+  syncRepDropdown(); syncRepFilter(); syncModalReps(); renderRepList();
 }
-
 function renderRepList() {
   document.getElementById('rep-list').innerHTML = reps.length
     ? reps.map(r => `<div class="rep-item"><span>${r}</span><button class="rep-del" onclick="window._removeRep('${r}')">✕</button></div>`).join('')
     : '<p style="font-size:13px;color:#aaa">No reps yet.</p>';
 }
 function syncRepDropdown() {
-  const sel = document.getElementById('f-sales');
-  const cur = sel.value;
+  const sel = document.getElementById('f-sales'), cur = sel.value;
   sel.innerHTML = '<option value="">Select rep</option>' + reps.map(r => `<option ${r===cur?'selected':''}>${r}</option>`).join('');
 }
 function syncRepFilter() {
-  const sel = document.getElementById('filter-rep');
-  const cur = sel.value;
+  const sel = document.getElementById('filter-rep'), cur = sel.value;
   sel.innerHTML = '<option value="">All Reps</option>' + reps.map(r => `<option ${r===cur?'selected':''}>${r}</option>`).join('');
 }
+function syncModalReps() {
+  const sel = document.getElementById('m-sales'), cur = sel.value;
+  sel.innerHTML = reps.map(r => `<option ${r===cur?'selected':''}>${r}</option>`).join('');
+}
 
-const dealsCol = collection(db, 'deals');
+/* ── Deals ── */
 onSnapshot(dealsCol, snap => {
   deals = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
-  setSync(true);
-  renderTable();
+  setSync(true); renderTable();
 }, () => setSync(false));
 
 async function registerDeal() {
@@ -409,14 +375,8 @@ async function registerDeal() {
   const taskMkt = document.getElementById('f-task-marketing').value.trim();
   const taskProdMkt = document.getElementById('f-task-prodmkt').value.trim();
   const taskProduct = document.getElementById('f-task-product').value.trim();
-
-  if (!sales || !company || !phase || isNaN(value) || !forecast) {
-    alert('Please fill in Sales Rep, Company, Phase, Value, and Forecast Category.');
-    return;
-  }
-
+  if (!sales || !company || !phase || isNaN(value) || !forecast) { alert('Please fill in Sales Rep, Company, Phase, Value, and Forecast Category.'); return; }
   await addDoc(dealsCol, { sales, company, phase, value, forecast, pcd, catalystName, catalystTask, taskSales, taskLdu, taskMkt, taskProdMkt, taskProduct, createdAt: Date.now() });
-
   ['f-company','f-value','f-pcd','f-catalyst-name','f-catalyst-task','f-task-sales','f-task-ldu','f-task-marketing','f-task-prodmkt','f-task-product'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('f-sales').value = '';
   document.getElementById('f-phase').value = '';
@@ -425,32 +385,71 @@ async function registerDeal() {
   switchTab('dashboard');
 }
 
-async function updatePhase(id, val) {
-  await updateDoc(doc(db, 'deals', id), { phase: val });
+/* ── Edit Modal ── */
+function openEdit(id) {
+  const d = deals.find(x => x._id === id);
+  if (!d) return;
+  editingId = id;
+  syncModalReps();
+  document.getElementById('modal-title').textContent = `Edit — ${d.company}`;
+  document.getElementById('m-sales').value = d.sales || '';
+  document.getElementById('m-company').value = d.company || '';
+  document.getElementById('m-phase').value = d.phase || 'Active';
+  document.getElementById('m-value').value = d.value || '';
+  document.getElementById('m-forecast').value = d.forecast || 'Commit';
+  document.getElementById('m-pcd').value = d.pcd || '';
+  document.getElementById('m-catalyst-name').value = d.catalystName || '';
+  document.getElementById('m-catalyst-task').value = d.catalystTask || '';
+  document.getElementById('m-task-sales').value = d.taskSales || '';
+  document.getElementById('m-task-ldu').value = d.taskLdu || '';
+  document.getElementById('m-task-marketing').value = d.taskMkt || '';
+  document.getElementById('m-task-prodmkt').value = d.taskProdMkt || '';
+  document.getElementById('m-task-product').value = d.taskProduct || '';
+  document.getElementById('modal').classList.add('open');
 }
-function updateTask(id, field, val) {
-  clearTimeout(taskTimers[id+field]);
-  taskTimers[id+field] = setTimeout(() => updateDoc(doc(db,'deals',id), { [field]: val }), 600);
+function closeModal() {
+  editingId = null;
+  document.getElementById('modal').classList.remove('open');
 }
-async function deleteDeal(id) {
-  if (!confirm('Remove this deal?')) return;
-  await deleteDoc(doc(db, 'deals', id));
+async function saveDeal() {
+  if (!editingId) return;
+  const data = {
+    sales: document.getElementById('m-sales').value,
+    company: document.getElementById('m-company').value.trim(),
+    phase: document.getElementById('m-phase').value,
+    value: parseFloat(document.getElementById('m-value').value),
+    forecast: document.getElementById('m-forecast').value,
+    pcd: document.getElementById('m-pcd').value,
+    catalystName: document.getElementById('m-catalyst-name').value.trim(),
+    catalystTask: document.getElementById('m-catalyst-task').value.trim(),
+    taskSales: document.getElementById('m-task-sales').value.trim(),
+    taskLdu: document.getElementById('m-task-ldu').value.trim(),
+    taskMkt: document.getElementById('m-task-marketing').value.trim(),
+    taskProdMkt: document.getElementById('m-task-prodmkt').value.trim(),
+    taskProduct: document.getElementById('m-task-product').value.trim(),
+  };
+  await updateDoc(doc(db, 'deals', editingId), data);
+  closeModal();
+  showToast('Deal updated!');
+}
+async function deleteDeal() {
+  if (!editingId) return;
+  const d = deals.find(x => x._id === editingId);
+  if (!confirm(`Delete "${d?.company}"? This cannot be undone.`)) return;
+  await deleteDoc(doc(db, 'deals', editingId));
+  closeModal();
+  showToast('Deal deleted.');
 }
 
-function getCheckedPhases() {
-  return [...document.querySelectorAll('#filter-phases input:checked')].map(c => c.value);
-}
+/* ── Filters & Table ── */
+function getCheckedPhases() { return [...document.querySelectorAll('#filter-phases input:checked')].map(c => c.value); }
 function clearFilters() {
   document.getElementById('filter-rep').value = '';
   document.querySelectorAll('#filter-phases input').forEach(c => c.checked = true);
   renderTable();
 }
-
 function fcClass(f) { return { Commit:'fc-commit', Forecast:'fc-forecast', 'Strong Upside':'fc-strong', Upside:'fc-upside' }[f] || ''; }
-function fmtDate(d) {
-  if (!d) return '—';
-  return new Date(d+'T00:00:00').toLocaleDateString('en-PH', { month:'short', day:'numeric', year:'numeric' });
-}
+function fmtDate(d) { if (!d) return '—'; return new Date(d+'T00:00:00').toLocaleDateString('en-PH', { month:'short', day:'numeric', year:'numeric' }); }
 function taskCell(d, field) {
   return `<td><textarea class="task-input" rows="2" onchange="window._updateTask('${d._id}','${field}',this.value)">${d[field]||''}</textarea></td>`;
 }
@@ -459,10 +458,8 @@ function renderTable() {
   const repFilter = document.getElementById('filter-rep').value;
   const phaseFilter = getCheckedPhases();
   const filtered = deals.filter(d => (!repFilter || d.sales===repFilter) && phaseFilter.includes(d.phase));
-
   document.getElementById('result-count').textContent = `${filtered.length} deal${filtered.length!==1?'s':''}`;
   const tbody = document.getElementById('deal-table');
-
   if (!filtered.length) {
     tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><p>No deals match your filters.</p>${!deals.length?`<br><span class="empty-link" onclick="switchTab('form')">Register your first deal →</span>`:''}</td></tr>`;
   } else {
@@ -470,7 +467,7 @@ function renderTable() {
       <tr>
         <td style="font-weight:600;white-space:nowrap">${d.company}</td>
         <td style="white-space:nowrap">${d.sales}</td>
-        <td><select class="phase-select" onchange="window._updatePhase('${d._id}',this.value)">
+        <td class="col-phase"><select class="phase-select" onchange="window._updatePhase('${d._id}',this.value)">
           ${['Active','Nurture','Won','Lost','Disqualified'].map(p=>`<option ${d.phase===p?'selected':''}>${p}</option>`).join('')}
         </select></td>
         <td style="white-space:nowrap">₱${Math.round(d.value).toLocaleString()}</td>
@@ -483,10 +480,9 @@ function renderTable() {
         ${taskCell(d,'taskMkt')}
         ${taskCell(d,'taskProdMkt')}
         ${taskCell(d,'taskProduct')}
-        <td><button class="del-btn" onclick="window._deleteDeal('${d._id}')">✕</button></td>
+        <td><button class="edit-btn" onclick="window._openEdit('${d._id}')">Edit</button></td>
       </tr>`).join('');
   }
-
   const won = deals.filter(d => d.phase==='Won');
   const pipe = deals.filter(d => !['Lost','Disqualified'].includes(d.phase));
   document.getElementById('m-total').textContent = deals.length;
@@ -495,6 +491,7 @@ function renderTable() {
   document.getElementById('m-wonval').textContent = '₱'+Math.round(won.reduce((s,d)=>s+d.value,0)).toLocaleString();
 }
 
+/* ── Tab switching ── */
 function switchTab(tab) {
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['form','dashboard','settings'][i]===tab));
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -510,15 +507,24 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
+async function updatePhase(id, val) { await updateDoc(doc(db,'deals',id), { phase: val }); }
+function updateTask(id, field, val) {
+  clearTimeout(taskTimers[id+field]);
+  taskTimers[id+field] = setTimeout(() => updateDoc(doc(db,'deals',id), { [field]: val }), 600);
+}
+
 window.switchTab = switchTab;
 window.applyFilters = renderTable;
 window.clearFilters = clearFilters;
 window.registerDeal = registerDeal;
 window.addRep = addRep;
+window.closeModal = closeModal;
+window.saveDeal = saveDeal;
+window.deleteDeal = deleteDeal;
 window._removeRep = removeRep;
+window._openEdit = openEdit;
 window._updatePhase = updatePhase;
 window._updateTask = updateTask;
-window._deleteDeal = deleteDeal;
 
 loadReps();
 </script>
